@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema attributeFormDefault="unqualified" elementFormDefault="qualified" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+  <xs:element name="json_object" type="json_objectType"/>
+  <xs:complexType name="attributesType">
+    <xs:sequence>
+      <xs:element type="xs:string" name="_x0040type"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="statusType">
+    <xs:sequence>
+      <xs:element type="xs:string" name="message"/>
+      <xs:element type="xs:string" name="code"/>
+      <xs:element type="attributesType" name="attributes"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="idType">
+    <xs:sequence>
+      <xs:element type="xs:string" name="_x0040type"/>
+      <xs:element type="xs:string" name="_x0040value"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="_x0040valueType">
+    <xs:sequence>
+      <xs:element type="idType" name="id" minOccurs="0"/>
+      <xs:element type="xs:string" name="value" minOccurs="0"/>
+      <xs:element type="xs:string" name="label" minOccurs="0"/>
+      <xs:element type="xs:string" name="_x0040type" minOccurs="0"/>
+      <xs:element type="_x0040value__clj2x-sfx_1Type" name="_x0040value" minOccurs="0"/>
+    </xs:sequence>
+    <xs:attribute type="xs:string" name="arrayElem" use="optional"/>
+  </xs:complexType>
+  <xs:complexType name="nameType">
+    <xs:sequence>
+      <xs:element type="xs:string" name="_x0040type"/>
+      <xs:element type="_x0040valueType" name="_x0040value"/>
+    </xs:sequence>
+    <xs:attribute type="xs:string" name="arrayElem"/>
+  </xs:complexType>
+  <xs:complexType name="propertiesType">
+    <xs:sequence>
+      <xs:element type="nameType" name="name"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="_x0040value__clj2x-sfx_1Type">
+    <xs:sequence>
+      <xs:element type="xs:string" name="id"/>
+      <xs:element type="xs:string" name="label"/>
+      <xs:element type="propertiesType" name="properties"/>
+    </xs:sequence>
+    <xs:attribute type="xs:byte" name="arrayDepth"/>
+  </xs:complexType>
+  <xs:complexType name="dataType">
+    <xs:sequence>
+      <xs:element type="xs:string" name="_x0040type"/>
+      <xs:element type="_x0040valueType" name="_x0040value"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="metaType">
+    <xs:sequence>
+      <xs:element type="xs:string" name="_x0040type"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="resultType">
+    <xs:sequence>
+      <xs:element type="dataType" name="data"/>
+      <xs:element type="metaType" name="meta"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="json_objectType">
+    <xs:sequence>
+      <xs:element type="xs:string" name="requestId"/>
+      <xs:element type="statusType" name="status"/>
+      <xs:element type="resultType" name="result"/>
+    </xs:sequence>
+  </xs:complexType>
+</xs:schema>

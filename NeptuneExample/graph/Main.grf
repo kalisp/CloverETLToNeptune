@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Graph author="kalisp" created="Wed May 30 13:43:09 EDT 2018" guiVersion="4.8.0" id="1527803323699" licenseCode="CLP1DJAVLI66953105BY" name="Main" showComponentDetails="true">
+<Global>
+<Metadata id="Metadata0">
+<Record fieldDelimiter="|" name="Data" previewAttachmentCharset="UTF-8" recordDelimiter="\r\n" type="delimited">
+<Field name="label" type="string"/>
+<Field name="value" type="string"/>
+</Record>
+</Metadata>
+<Metadata id="Metadata1">
+<Record fieldDelimiter="|" name="Response" previewAttachmentCharset="UTF-8" recordDelimiter="\r\n" type="delimited">
+<Field name="code" type="string"/>
+<Field name="message" type="string"/>
+</Record>
+</Metadata>
+<GraphParameters>
+<GraphParameterFile fileURL="workspace.prm"/>
+<GraphParameterFile fileURL="neptune.prm"/>
+</GraphParameters>
+<RichTextNote backgroundColor="FAF6D6" folded="false" fontSize="medium" height="182" id="Note0" textColor="444444" width="651" x="379" y="53">
+<attr name="text"><![CDATA[h3. Example of connecting to Amazon Neptune
+Follows [https://docs.aws.amazon.com/neptune/latest/userguide/access-graph-gremlin-rest.html]]]></attr>
+</RichTextNote>
+<Dictionary/>
+</Global>
+<Phase number="0">
+<Node guiName="HTTPConnector" guiX="406" guiY="277" id="HTTPCONNECTOR" requestMethod="POST" type="HTTP_CONNECTOR" url="http://${NEPTUNE_ENDPOINT}:8182">
+<attr name="requestContent"><![CDATA[{"gremlin" : "g.V().count()"}]]></attr>
+</Node>
+<Node guiName="JSONExtract" guiX="584" guiY="277" id="JSONEXTRACT" schema="${META_DIR}/NeptuneResponse_json.xsd" sourceUri="port:$0.content:discrete" type="JSON_EXTRACT">
+<attr name="mapping"><![CDATA[<Mappings>
+	<Mapping element="json_object">
+		<Mapping element="status" outPort="1"
+				xmlFields="{}code;{}message"
+				cloverFields="code;message">
+		</Mapping>
+		<Mapping element="result">
+			<Mapping element="data">
+				<Mapping element="_x0040value" outPort="0"
+						xmlFields="{}label;{}value"
+						cloverFields="label;value">
+				</Mapping>
+			</Mapping>
+		</Mapping>
+	</Mapping>
+</Mappings>
+]]></attr>
+</Node>
+<Node guiName="Trash" guiX="902" guiY="277" id="TRASH" type="TRASH"/>
+<Edge fromNode="HTTPCONNECTOR:0" guiBendpoints="" guiRouter="Manhattan" id="Edge0" inPort="Port 0 (input)" outPort="Port 0 (out)" toNode="JSONEXTRACT:0"/>
+<Edge fromNode="JSONEXTRACT:0" guiBendpoints="" guiRouter="Manhattan" id="Edge1" inPort="Port 0 (in)" metadata="Metadata0" outPort="Port 0 (out)" toNode="TRASH:0"/>
+<Edge fromNode="JSONEXTRACT:1" guiBendpoints="" guiRouter="Manhattan" id="Edge2" inPort="Port 1 (in)" metadata="Metadata1" outPort="Port 1 (out)" toNode="TRASH:1"/>
+</Phase>
+</Graph>
